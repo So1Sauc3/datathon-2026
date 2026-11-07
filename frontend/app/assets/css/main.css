@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "m6x11plus";
+  src: url("/fonts/m6x11plus.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    background-color: #1f2a2c;
+    color: #ffffff;
+    font-family: "m6x11plus", monospace;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    font-smooth: never;
+  }
+
+  body {
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+    background-color: #1f2a2c;
+  }
+
+  button,
+  input,
+  textarea {
+    font-family: inherit;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+}

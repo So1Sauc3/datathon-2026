@@ -1,0 +1,28 @@
+export const chartTheme = {
+  play: '#018BF6',
+  playPress: '#0155A2',
+  back: '#FA8C01',
+  backPress: '#9D5900',
+  action: '#EF4637',
+  actionPress: '#9C2724',
+  collection: '#3A9F75',
+  collectionPress: '#205C44',
+  slate: '#667A78',
+  panel: '#38474E',
+  panelLine: '#B5C1D2',
+  ink: '#3D5558',
+  muted: '#585E66',
+  shell: '#2D353C',
+  well: '#395055',
+  stake: '#3A4D54',
+  hand: '#9FACB8',
+  capsule: '#1E2C2C',
+  level: '#F8F2F4',
+  count: '#394E52',
+  track: '#1F2A2C',
+  field: '#1F2A2C',
+  tick: '#384345',
+  white: '#FFFFFF',
+} as const
+
+export type ChartThemeColor = keyof typeof chartTheme
