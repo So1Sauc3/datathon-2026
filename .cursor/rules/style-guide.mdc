@@ -1,0 +1,83 @@
+---
+description: Balatro UI style guide for frontend interface work
+alwaysApply: true
+---
+
+# Balatro UI
+
+Match the Balatro community kit (Figma file `SnU22lEuhLkfzxiqcHMHDS`, frame `Component buttons`). Flat fills, 14px pills, soft drop shadows, pixel type. Build chrome from these tokens. Keep card and stake art as pixel sprites.
+
+## Type
+
+Every interface string uses **m6x11plus**. The face is the file `frontend/public/fonts/m6x11plus.ttf`. Figma text is set in Rajdhani Bold and Phudu Bold only as a stand-in; do not load those families.
+
+```css
+@font-face {
+  font-family: "m6x11plus";
+  src: url("/fonts/m6x11plus.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+- Set `font-family: "m6x11plus", monospace` on the document root.
+- One weight. Leave `font-weight` at 400.
+- `letter-spacing: 0`. `line-height: 1`.
+- Keep glyphs crisp: `-webkit-font-smoothing: none; font-smooth: never;`
+- Sizes in whole px: caption 20–23, body 25, label 35, row and menu 40–45, hero `PLAY` 65–72.
+
+White labels on a colored control are centered, with `text-shadow: 0 4px 4px rgba(0,0,0,0.25)`.
+
+## Color
+
+Hover and pressed states replace the fill with the darker hex of the same role.
+
+| Role | Rest | Pressed | Use |
+| --- | --- | --- | --- |
+| blue | `#018BF6` | `#0155A2` | PLAY, chip scores |
+| orange | `#FA8C01` | `#9D5900` | Back, Options, money counts |
+| red | `#EF4637` | `#9C2724` | In-panel actions, Quit, mult, slider, checked box |
+| green | `#3A9F75` | `#205C44` | Collection and other positive actions |
+| slate | `#667A78` | — | Neutral chips such as a profile pill |
+
+The seed field is `#018BF6` at 75% opacity, 90% on hover, with the label at 75% white. It does not use the pressed blue.
+
+Surfaces:
+
+- Modal fill `#38474E`, border `8px solid #B5C1D2`, radius `28px`, shadow `0 4px 4px rgba(0,0,0,0.5)`
+- Deck shell `#2D353C` radius 28; inner well `#395055` radius 19. Stake inner well `#3A4D54` radius 28
+- Description card `#FFFFFF`. Body copy `#3D5558`. Emphasis numbers `#EF4637`
+- Muted ink `#585E66` (Figma variable `--text`)
+- Hand row `#9FACB8` radius 19. Score capsule `#1E2C2C`. Chips pill `#018BF6`. Mult pill and the `X` `#EF4637`
+- Level pill `#F8F2F4` radius 31, text `#585E66`
+- Count badge `#394E52` radius 16, number `#FA8C01`
+- Slider track `#1F2A2C` radius 18. Fill and value chip `#EF4637`, chip radius 15
+- Checkbox 53px, radius 19, `5px solid #FFFFFF`. Off `#1F2A2C`, on `#EF4637` with a white check
+- Stake ticks `#384345`, radius 2. The active tick adds `4px solid #FFFFFF`
+- Card-stack shadow is hard: `4px 12px 0 #ADADAD`
+
+## Controls
+
+- Buttons, tabs, and the seed field use radius `14px`.
+- Lift every button with `drop-shadow(0 4px 2px rgba(0,0,0,0.5))`. A second `box-shadow: 0 4px 4px rgba(0,0,0,0.25)` is optional.
+- Hover and active swap in the pressed hex. Leave scale, glow, and label opacity alone.
+- Inside a panel, action buttons are red, including Settings, New Run, and tabs. Back is orange, full width, pinned to the bottom. PLAY is the blue commitment button.
+- Stack full-width buttons with a `15px` gap. Stack hand rows with a `5px` gap. Put `6–12px` between a label and its control.
+- A small red downward triangle sits on the modal's top edge, centered on the active tab.
+- A cycle control (game speed, monitor) is a red pill. Dots under the value mark the option; the current dot is light, the others are black.
+- Deck and stake selectors: sprite, title, white description well, a tall red `>` button, then a dot pager (current dot white, the rest black).
+
+A poker-hand row is one gray pill: level pill, hand name, dark capsule (blue chips, red `X`, red mult), then `#` and an orange count on `#394E52`.
+
+## Tokens
+
+Map the hexes into the Tailwind theme and read them by name (`play`, `play-press`, `back`, `back-press`, `action`, `action-press`, `collection`, `panel`, `panel-line`, `ink`, `muted`). Restyle shadcn components onto these tokens.
+
+```vue
+<button
+  class="rounded-[14px] bg-play px-8 py-3 text-center text-[65px] text-white drop-shadow-[0_4px_2px_rgba(0,0,0,0.5)] [text-shadow:0_4px_4px_rgba(0,0,0,0.25)] hover:bg-play-press"
+>
+  PLAY
+</button>
+```
