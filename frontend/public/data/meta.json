@@ -1,0 +1,1 @@
+{"window_start":"2025-01-01","window_end":"2025-06-30","budget_window":"2025-07-01 to 2025-07-30","holdout":"2025-05-01 to 2025-06-30","files":["budget","claims","comps","demand","downtime","faults","floor_map","forecast","machine_day_slim","machines","player_groups","players","zone_day"],"note":"The Gilded Ace is fictional and the data synthetic. Money in US dollars."}
