@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   components: [
     { path: '~/components/chrome', pathPrefix: false },
     { path: '~/components/charts', pathPrefix: false },
-    '~/components',
+    { path: '~/components/dashboard', pathPrefix: false },
+    { path: '~/components', ignore: ['**/dashboard/**'] },
   ],
   modules: [
     'lenis/nuxt',
