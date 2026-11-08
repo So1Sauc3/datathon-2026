@@ -18,6 +18,7 @@ const title = computed(() => TITLES[props.question])
 const claims = computed(() => claimsFor(props.question))
 const active = ref(claims.value[0]?.id ?? '')
 const claim = computed(() => claims.value.find(item => item.id === active.value) ?? claims.value[0])
+const cardSize = computed(() => props.question === 'q5' ? 'pack' as const : 'card' as const)
 
 function leave() {
   navigateTo('/')
@@ -45,42 +46,32 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
     </header>
 
     <div
-      v-if="question === 'q4'"
+      v-if="question !== 'q3'"
       class="grid items-start gap-[15px] md:grid-cols-[186px_minmax(0,1fr)]"
     >
       <nav
-        class="flex gap-3 overflow-x-auto p-1 pb-4 md:sticky md:top-6 md:max-h-[calc(100vh-7rem)] md:flex-col md:overflow-y-auto"
+        class="flex gap-3 overflow-x-auto p-1 pb-4 md:sticky md:top-6 md:h-[calc(100vh-7rem)] md:flex-col md:gap-0 md:overflow-visible"
         :aria-label="title"
       >
-        <SpriteButton
+        <div
           v-for="item in claims"
           :key="item.id"
-          :src="claimArt(item.id).src"
-          :label="item.label"
-          :selected="active === item.id"
-          :data-claim="item.id"
-          @click="active = item.id"
-        />
+          class="md:relative md:min-h-0 md:max-h-[160px] md:flex-1 md:hover:z-20 md:focus-within:z-20 md:last:max-h-none md:last:flex-none"
+        >
+          <SpriteButton
+            :size="cardSize"
+            :src="claimArt(item.id).src"
+            :label="item.label"
+            :selected="active === item.id"
+            :data-claim="item.id"
+            @click="active = item.id"
+          />
+        </div>
       </nav>
       <DashboardGrid v-if="claim" :claim-id="claim.id" />
     </div>
 
-    <div v-else-if="question === 'q2'" class="flex min-w-0 flex-col gap-[15px]">
-      <nav class="flex gap-3 overflow-x-auto p-1 pb-4" :aria-label="title">
-        <SpriteButton
-          v-for="item in claims"
-          :key="item.id"
-          :src="claimArt(item.id).src"
-          :label="item.label"
-          :selected="active === item.id"
-          :data-claim="item.id"
-          @click="active = item.id"
-        />
-      </nav>
-      <DashboardGrid v-if="claim" :claim-id="claim.id" />
-    </div>
-
-    <div v-else-if="question === 'q3'" class="flex min-w-0 flex-col gap-[15px]">
+    <div v-else class="flex min-w-0 flex-col gap-[15px]">
       <nav class="flex flex-wrap justify-center gap-6 p-1" :aria-label="title">
         <SpriteButton
           v-for="item in claims"
@@ -96,20 +87,5 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       <DashboardGrid v-if="claim" :claim-id="claim.id" />
     </div>
 
-    <div v-else class="flex min-w-0 flex-col gap-[15px]">
-      <nav class="flex flex-wrap justify-center gap-[15px] p-1" :aria-label="title">
-        <SpriteButton
-          v-for="item in claims"
-          :key="item.id"
-          size="pack"
-          :src="claimArt(item.id).src"
-          :label="item.label"
-          :selected="active === item.id"
-          :data-claim="item.id"
-          @click="active = item.id"
-        />
-      </nav>
-      <DashboardGrid v-if="claim" :claim-id="claim.id" />
-    </div>
   </main>
 </template>
