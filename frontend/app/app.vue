@@ -1,3 +1,7 @@
+<script setup lang="ts">
+useBgm()
+</script>
+
 <template>
   <div>
     <BalatroBackground />

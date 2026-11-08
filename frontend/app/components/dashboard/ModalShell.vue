@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref, useId } from 'vue'
 
-defineProps<{
+withDefaults(defineProps<{
   title: string
-}>()
+  backLabel?: string
+}>(), {
+  backLabel: 'Back',
+})
 
 const emit = defineEmits<{
   back: []
@@ -39,10 +42,10 @@ onMounted(() => {
           variant="back"
           size="row"
           type="button"
-          class="w-full shrink-0"
+          class="w-full shrink-0 whitespace-normal"
           @click="emit('back')"
         >
-          Back
+          {{ backLabel }}
         </Button>
       </Panel>
     </div>

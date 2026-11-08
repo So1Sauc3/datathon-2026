@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { MENU, type MenuEntry, type MenuVariant } from '~/lib/dashboard/catalog'
 import type { ButtonVariants } from '~/components/ui/button'
 
 useHead({ title: 'The Gilded Ace' })
 
 const { top, openRoot, back } = useModalStack()
+const creditsOpen = ref(false)
 
 function buttonSize(variant: MenuVariant): ButtonVariants['size'] {
   if (variant === 'play') return 'splash'
@@ -31,7 +32,13 @@ function openQuestion(id: MenuEntry['id']) {
 }
 
 function onKeydown(event: KeyboardEvent) {
-  if (event.key !== 'Escape' || !top.value) return
+  if (event.key !== 'Escape') return
+  if (creditsOpen.value) {
+    event.preventDefault()
+    creditsOpen.value = false
+    return
+  }
+  if (!top.value) return
   event.preventDefault()
   back()
 }
@@ -41,7 +48,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <main class="flex min-h-screen flex-col px-6 pb-8">
+  <main class="relative flex min-h-screen flex-col px-6 pb-8">
+    <Button
+      variant="slate"
+      size="chip"
+      type="button"
+      class="absolute top-6 right-6 z-10 uppercase"
+      @click="creditsOpen = true"
+    >
+      Credits
+    </Button>
     <div class="flex flex-1 items-center justify-center">
       <h1 class="text-center text-[140px]">
         The Gilded Ace
@@ -81,6 +97,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
     <Transition name="modal" mode="out-in">
       <MachinesModal v-if="top?.id === 'q1'" />
       <ClaimModal v-else-if="top?.id === 'q1-claim'" />
+    </Transition>
+    <Transition name="modal">
+      <CreditsModal v-if="creditsOpen" @close="creditsOpen = false" />
     </Transition>
   </main>
 </template>
