@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<{
   height?: number
   fill?: boolean
   class?: HTMLAttributes['class']
+  ariaLabel?: string
 }>(), {
   margin: () => ({ top: 24, right: 24, bottom: 24, left: 24 }),
   height: 280,
@@ -39,6 +40,7 @@ const innerHeight = computed(() => Math.max(0, measuredHeight.value - props.marg
       :height="measuredHeight"
       class="block"
       role="img"
+      :aria-label="ariaLabel"
     >
       <g :transform="`translate(${margin.left},${margin.top})`">
         <slot

@@ -6,9 +6,11 @@ const props = defineProps<{
   title: string
   columns: readonly [string, string]
   row: TileRow
+  rows?: readonly { label: string, left: string, right: string }[]
 }>()
 
 const count = computed(() => props.row * 3 - 2)
+const shown = computed(() => (props.rows ? props.rows.slice(0, count.value) : []))
 </script>
 
 <template>
@@ -20,7 +22,22 @@ const count = computed(() => props.row * 3 - 2)
         <span class="text-action">{{ columns[1] }}</span>
       </span>
     </template>
-    <ol class="flex min-h-0 flex-1 flex-col gap-[5px]">
+    <ol v-if="shown.length" class="flex min-h-0 flex-1 flex-col gap-[5px]">
+      <li
+        v-for="(item, index) in shown"
+        :key="item.label"
+        class="flex min-h-0 flex-1 items-center gap-2 rounded-[19px] bg-hand px-2"
+      >
+        <span class="rounded-[31px] bg-level px-3 py-[2px] text-[20px] text-muted">{{ index + 1 }}</span>
+        <span class="min-w-0 flex-1 truncate text-[20px] text-muted">{{ item.label }}</span>
+        <span class="flex shrink-0 items-center gap-1 rounded-full bg-capsule p-1 text-[20px] text-white [text-shadow:0_4px_4px_rgba(0,0,0,0.25)]">
+          <span class="rounded-[14px] bg-play px-2">{{ item.left }}</span>
+          <span class="text-action">X</span>
+          <span class="rounded-[14px] bg-action px-2">{{ item.right }}</span>
+        </span>
+      </li>
+    </ol>
+    <ol v-else class="flex min-h-0 flex-1 flex-col gap-[5px]">
       <li
         v-for="index in count"
         :key="index"

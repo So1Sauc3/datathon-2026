@@ -14,7 +14,7 @@ export function usePortfolio() {
   const result = ref<'win' | 'lose' | null>(null)
   const returned = ref(0)
   const round = ref(1)
-  const { data } = useFetch<BudgetFile>(`/data/${GAME_DATA_FILE}`)
+  const { data } = useFetch<BudgetFile>(`/data/${GAME_DATA_FILE}`, { server: false })
 
   const target = computed(() => {
     const next: Record<string, number> = {}

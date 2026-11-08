@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import { cn } from 'cn'
 import { claimById } from '~/lib/dashboard/catalog'
 import { TILE_COL, TILE_ROW, layoutFor, type TileDef } from '~/lib/dashboard/layouts'
@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
 
 const claim = computed(() => claimById(props.claimId))
 const tiles = computed(() => props.tiles ?? layoutFor(props.claimId))
+const { board } = useBoard(toRef(props, 'claimId'))
 
 function span(tile: TileDef) {
   return [TILE_COL[tile.col], TILE_ROW[tile.row]]
@@ -53,7 +54,7 @@ function span(tile: TileDef) {
           :class="span(tile)"
           :title="tile.title"
           :tone="tile.tone"
-          :value="tile.value"
+          :value="board?.stat[tile.title] ?? tile.value"
           :caption="tile.caption"
           :fill="tile.fill"
         />
@@ -64,13 +65,14 @@ function span(tile: TileDef) {
           :left="tile.left"
           :right="tile.right"
           :joiner="tile.joiner"
-          :values="tile.values"
+          :values="board?.pair[tile.title] ?? tile.values"
         />
         <ChartTile
           v-else-if="tile.kind === 'chart'"
           :class="span(tile)"
           :title="tile.title"
           :chart="tile.chart"
+          :spec="board?.chart[tile.title]"
         />
         <RankTile
           v-else-if="tile.kind === 'rank'"
@@ -78,11 +80,13 @@ function span(tile: TileDef) {
           :title="tile.title"
           :columns="tile.columns"
           :row="tile.row"
+          :rows="board?.rank[tile.title]"
         />
         <NoteTile
           v-else
           :class="span(tile)"
           :title="tile.title"
+          :body="board?.note[tile.title]"
         />
       </template>
     </div>
