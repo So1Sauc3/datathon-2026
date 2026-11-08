@@ -6,7 +6,13 @@ import type { ButtonVariants } from '~/components/ui/button'
 useHead({ title: 'The Gilded Ace' })
 
 const { top, openRoot, back } = useModalStack()
-const creditsOpen = ref(false)
+const creditsSeen = useState('credits-intro', () => false)
+const creditsOpen = ref(!creditsSeen.value)
+
+function closeCredits() {
+  creditsOpen.value = false
+  creditsSeen.value = true
+}
 
 function buttonSize(variant: MenuVariant): ButtonVariants['size'] {
   if (variant === 'play') return 'splash'
@@ -35,7 +41,7 @@ function onKeydown(event: KeyboardEvent) {
   if (event.key !== 'Escape') return
   if (creditsOpen.value) {
     event.preventDefault()
-    creditsOpen.value = false
+    closeCredits()
     return
   }
   if (!top.value) return
@@ -99,7 +105,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       <ClaimModal v-else-if="top?.id === 'q1-claim'" />
     </Transition>
     <Transition name="modal">
-      <CreditsModal v-if="creditsOpen" @close="creditsOpen = false" />
+      <CreditsModal v-if="creditsOpen" @close="closeCredits" />
     </Transition>
   </main>
 </template>
