@@ -37,3 +37,37 @@
     line-height: 1;
   }
 }
+
+/* Vue waits on the backdrop fade, so the panel slide must not outlast it. */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 220ms ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active [data-modal-panel] {
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.modal-leave-active [data-modal-panel] {
+  transition: transform 180ms ease-in;
+}
+
+.modal-enter-from [data-modal-panel],
+.modal-leave-to [data-modal-panel] {
+  transform: translateY(100vh);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 200ms ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}

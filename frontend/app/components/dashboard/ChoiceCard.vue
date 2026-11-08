@@ -41,7 +41,7 @@ const toneClass = computed(() => {
     :disabled="inert ? undefined : disabled"
     :aria-pressed="inert ? undefined : selected"
     :class="cn(
-      'flex h-full w-full flex-col gap-2 rounded-[14px] px-4 py-3 text-[25px] drop-shadow-control disabled:pointer-events-none disabled:opacity-50',
+      'flex h-full w-full flex-col gap-2 rounded-[14px] px-4 py-3 text-[25px] drop-shadow-control transition-[background-color,transform] duration-75 active:translate-y-[3px] disabled:pointer-events-none disabled:opacity-50',
       tone === 'paper' ? 'items-start text-left' : 'items-center justify-center text-center',
       toneClass,
       props.class,

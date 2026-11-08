@@ -78,8 +78,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       </div>
     </nav>
 
-    <MachinesModal v-if="top?.id === 'q1'" />
-    <ClaimModal v-else-if="top?.id === 'q1-claim'" />
+    <Transition name="modal" mode="out-in">
+      <MachinesModal v-if="top?.id === 'q1'" />
+      <ClaimModal v-else-if="top?.id === 'q1-claim'" />
+    </Transition>
   </main>
 </template>
 

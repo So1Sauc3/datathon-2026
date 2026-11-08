@@ -25,6 +25,7 @@ onMounted(() => {
       role="dialog"
       aria-modal="true"
       :aria-labelledby="titleId"
+      data-modal-panel
       class="flex max-h-[calc(100vh-2rem)] w-full max-w-[1120px] outline-none"
     >
       <Panel class="flex max-h-full w-full flex-col gap-[15px] p-6">

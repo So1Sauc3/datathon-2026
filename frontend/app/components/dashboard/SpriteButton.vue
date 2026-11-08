@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { cn } from 'cn'
 
 const props = withDefaults(defineProps<{
@@ -19,6 +19,8 @@ const props = withDefaults(defineProps<{
   hideLabel: false,
   size: 'card',
 })
+
+const MAX_TILT = 14
 
 const widthClass = computed(() => {
   if (props.size === 'pack') return 'w-[171px]'
@@ -40,6 +42,29 @@ const ringClass = computed(() => {
   if (props.size === 'token') return 'ring-4 ring-white'
   return 'shadow-stack ring-4 ring-white'
 })
+
+const tilt = ref<{ x: number, y: number } | null>(null)
+
+const tiltStyle = computed(() => {
+  if (!tilt.value) return undefined
+  const { x, y } = tilt.value
+  return { transform: `perspective(500px) rotateX(${-y * MAX_TILT}deg) rotateY(${x * MAX_TILT}deg) scale(1.06)` }
+})
+
+function onPointerMove(event: PointerEvent) {
+  if (props.inert || props.disabled) return
+  const box = (event.currentTarget as HTMLElement).getBoundingClientRect()
+  tilt.value = {
+    x: (event.clientX - box.left) / box.width - 0.5,
+    y: (event.clientY - box.top) / box.height - 0.5,
+  }
+}
+
+function onPointerLeave() {
+  tilt.value = null
+}
+
+watch(() => props.disabled, onPointerLeave)
 </script>
 
 <template>
@@ -53,12 +78,15 @@ const ringClass = computed(() => {
       widthClass,
       props.class,
     )"
+    @pointermove="onPointerMove"
+    @pointerleave="onPointerLeave"
   >
     <img
       :src="src"
       alt=""
       draggable="false"
-      :class="cn('select-none [image-rendering:pixelated] drop-shadow-control', imageClass, ringClass)"
+      :class="cn('select-none transition-transform duration-150 ease-out [image-rendering:pixelated] drop-shadow-control', imageClass, ringClass)"
+      :style="tiltStyle"
     >
     <span
       :class="hideLabel

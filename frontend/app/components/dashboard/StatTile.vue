@@ -39,7 +39,7 @@ const FILL: Record<TileTone, string> = {
           fill ? 'text-white' : TEXT[tone],
         )"
       >
-        {{ value ?? '--' }}
+        <CountUp :value="value ?? '--'" />
       </span>
       <span v-if="caption" class="text-[20px] text-white/75">
         {{ caption }}

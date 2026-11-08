@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority'
 export { default as Button } from './Button.vue'
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-[14px] text-center text-white drop-shadow-control [text-shadow:0_4px_4px_rgba(0,0,0,0.25)] disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-[14px] text-center text-white drop-shadow-control [text-shadow:0_4px_4px_rgba(0,0,0,0.25)] transition-[background-color,transform] duration-75 active:translate-y-[3px] disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
