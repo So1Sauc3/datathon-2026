@@ -33,9 +33,17 @@ export default {
         track: '#1F2A2C',
         field: '#1F2A2C',
         tick: '#384345',
+        sidebar: '#2D3A3B',
+        'sidebar-line': '#1E2C2C',
+        'sidebar-box': '#182426',
+        'sidebar-well': '#2E3A3D',
+        'score-well': '#252D30',
+        blind: '#A97A2C',
+        'blind-line': '#E0A23A',
       },
       boxShadow: {
         panel: '0 4px 4px rgba(0, 0, 0, 0.5)',
+        lift: '0 4px 4px rgba(0, 0, 0, 0.25)',
         stack: '4px 12px 0 #ADADAD',
       },
       dropShadow: {

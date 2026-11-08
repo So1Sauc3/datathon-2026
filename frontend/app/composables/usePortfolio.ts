@@ -12,6 +12,8 @@ import {
 export function usePortfolio() {
   const played = ref<string[]>([])
   const result = ref<'win' | 'lose' | null>(null)
+  const returned = ref(0)
+  const round = ref(1)
   const { data } = useFetch<BudgetFile>(`/data/${GAME_DATA_FILE}`)
 
   const target = computed(() => {
@@ -46,6 +48,8 @@ export function usePortfolio() {
     return played.value.filter(playedId => playedId === id).length
   }
 
+  const hand = computed(() => ACTIONS.filter(action => playedCount(action.id) < action.limit))
+
   function canPlay(id: string) {
     if (result.value) return false
     const action = actionById(id)
@@ -61,6 +65,12 @@ export function usePortfolio() {
   function play(id: string) {
     if (!canPlay(id)) return
     played.value = [...played.value, id]
+  }
+
+  function unplay(index: number) {
+    if (result.value || index < 0 || index >= played.value.length) return
+    played.value = played.value.filter((_, playedIndex) => playedIndex !== index)
+    returned.value += 1
   }
 
   function playRecommended() {
@@ -82,12 +92,17 @@ export function usePortfolio() {
   function newRun() {
     played.value = []
     result.value = null
+    returned.value = 0
+    round.value += 1
   }
 
   return {
     actions: ACTIONS,
+    hand,
     played,
     result,
+    returned,
+    round,
     ready,
     spent,
     remaining,
@@ -95,6 +110,7 @@ export function usePortfolio() {
     playedCount,
     canPlay,
     play,
+    unplay,
     playRecommended,
     commit,
     newRun,

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useId } from 'vue'
-import { formatDollars } from '~/lib/dashboard/catalog'
+import { computed, useId } from 'vue'
+import { TYPE_CAP, formatDollars } from '~/lib/dashboard/catalog'
+import { layoutFor, pair, stat, type TileDef } from '~/lib/dashboard/layouts'
 
-defineProps<{
+const props = defineProps<{
   outcome: 'win' | 'lose'
   spent: number
   kept: number
@@ -15,6 +16,13 @@ const emit = defineEmits<{
 }>()
 
 const titleId = useId()
+
+const tiles = computed<TileDef[]>(() => [
+  { ...pair('Your run', 'Spent', 'Kept', 6), values: [formatDollars(props.spent), formatDollars(props.kept)] },
+  stat('Types', 'back', 3, 1, { value: `${props.types} / ${TYPE_CAP}` }),
+  stat('Net benefit', 'collection', 3, 1, { fill: true, caption: 'recommended, mid case' }),
+  ...layoutFor('Q6-portfolio'),
+])
 </script>
 
 <template>
@@ -23,32 +31,21 @@ const titleId = useId()
       role="dialog"
       aria-modal="true"
       :aria-labelledby="titleId"
-      class="w-full max-w-[520px]"
+      class="flex max-h-[calc(100vh-2rem)] w-full max-w-[1120px]"
       :data-result="outcome"
     >
-      <Panel class="flex flex-col gap-[15px] p-6">
+      <Panel class="flex max-h-full w-full flex-col gap-[15px] p-6">
         <h2
           :id="titleId"
-          class="text-center text-[65px]"
+          class="shrink-0 text-center text-[65px]"
           :class="outcome === 'win' ? 'text-play' : 'text-action'"
         >
           {{ outcome === 'win' ? 'YOU WIN' : 'GAME OVER' }}
         </h2>
-        <ul class="flex flex-col gap-2">
-          <li class="flex items-center justify-between rounded-[14px] bg-white px-4 py-3 text-[25px] text-ink">
-            <span>Spent</span>
-            <span class="text-action">{{ formatDollars(spent) }}</span>
-          </li>
-          <li class="flex items-center justify-between rounded-[14px] bg-white px-4 py-3 text-[25px] text-ink">
-            <span>Kept</span>
-            <span class="text-action">{{ formatDollars(kept) }}</span>
-          </li>
-          <li class="flex items-center justify-between rounded-[14px] bg-white px-4 py-3 text-[25px] text-ink">
-            <span>Types</span>
-            <span class="text-action">{{ types }}</span>
-          </li>
-        </ul>
-        <div class="flex flex-col gap-[15px]">
+        <div class="min-h-0 flex-1 overflow-auto">
+          <DashboardGrid claim-id="Q6-portfolio" :framed="false" :tiles="tiles" />
+        </div>
+        <div class="flex shrink-0 flex-col gap-[15px]">
           <Button variant="action" size="row" type="button" class="w-full" @click="emit('again')">
             New run
           </Button>

@@ -40,12 +40,12 @@ export const TYPE_CAP = 3
 export const GAME_DATA_FILE = 'budget.json'
 
 export const MENU: readonly MenuEntry[] = [
-  { id: 'q4', label: 'Players', variant: 'slate' },
+  { id: 'q4', label: 'Players', variant: 'slate', to: '/players' },
   { id: 'q6', label: 'Play', variant: 'play', to: '/play' },
-  { id: 'q2', label: 'Demand', variant: 'back' },
-  { id: 'q3', label: 'Downtime', variant: 'action' },
+  { id: 'q2', label: 'Demand', variant: 'back', to: '/demand' },
+  { id: 'q3', label: 'Downtime', variant: 'action', to: '/downtime' },
   { id: 'q1', label: 'Machines', variant: 'collection' },
-  { id: 'q5', label: 'Loyalty', variant: 'slate' },
+  { id: 'q5', label: 'Loyalty', variant: 'slate', to: '/loyalty' },
 ]
 
 export const CLAIMS: readonly ClaimSlot[] = [

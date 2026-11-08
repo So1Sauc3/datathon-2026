@@ -8,9 +8,6 @@ const claim = computed(() => claimById(top.value?.payload ?? ''))
 
 <template>
   <ModalShell :title="claim?.label ?? 'Claim'" @back="back">
-    <div v-if="claim" class="flex flex-col gap-[15px]">
-      <PlaceholderWell kind="chart" :claim-id="claim.id" :height="280" />
-      <PlaceholderWell kind="finding" :claim-id="claim.id" />
-    </div>
+    <DashboardGrid v-if="claim" :claim-id="claim.id" :framed="false" />
   </ModalShell>
 </template>

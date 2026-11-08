@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-export type ModalId = 'q1' | 'q1-claim' | 'q2' | 'q3' | 'q4' | 'q5'
+export type ModalId = 'q1' | 'q1-claim'
 
 export interface ModalFrame {
   id: ModalId
@@ -11,7 +11,7 @@ export function useModalStack() {
   const stack = useState<ModalFrame[]>('modal-stack', () => [])
   const top = computed(() => stack.value.at(-1) ?? null)
 
-  function openRoot(id: Exclude<ModalId, 'q1-claim'>) {
+  function openRoot(id: 'q1') {
     stack.value = [{ id }]
   }
 

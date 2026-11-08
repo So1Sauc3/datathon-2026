@@ -14,6 +14,7 @@ export interface ChartMargin {
 const props = withDefaults(defineProps<{
   margin?: ChartMargin
   height?: number
+  fill?: boolean
   class?: HTMLAttributes['class']
 }>(), {
   margin: () => ({ top: 24, right: 24, bottom: 24, left: 24 }),
@@ -30,8 +31,8 @@ const innerHeight = computed(() => Math.max(0, measuredHeight.value - props.marg
 <template>
   <div
     ref="frame"
-    :class="cn('w-full', props.class)"
-    :style="{ height: `${height}px` }"
+    :class="cn('w-full', fill && 'h-full', props.class)"
+    :style="fill ? undefined : { height: `${height}px` }"
   >
     <svg
       :width="width"

@@ -19,6 +19,11 @@ export const buttonVariants = cva(
         row: 'px-6 py-2 text-[40px]',
         default: 'px-5 py-2 text-[35px]',
         compact: 'px-4 py-2 text-[25px]',
+        splash: 'h-[138px] w-[309px] shrink-0 px-0 text-[72px]',
+        menu: 'h-[116px] w-[221px] shrink-0 px-0 text-[45px] shadow-[0_4px_4px_rgba(0,0,0,0.25)]',
+        menuWide: 'h-[131px] w-[303px] shrink-0 px-0 text-[55px] shadow-[0_4px_4px_rgba(0,0,0,0.25)]',
+        chip: 'h-[67px] w-[165px] shrink-0 px-0 text-[35px] shadow-[0_4px_4px_rgba(0,0,0,0.5)] drop-shadow-none',
+        tile: 'h-full w-full whitespace-normal px-2 text-[40px] shadow-lift',
       },
       pressed: {
         true: '',

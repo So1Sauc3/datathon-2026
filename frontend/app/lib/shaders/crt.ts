@@ -9,7 +9,7 @@ uniform float uTime;
 uniform vec2 uResolution;
 uniform float uScale;
 
-#define CURVE_INTENSITY 0.3
+#define CURVE_INTENSITY 0.5
 #define SCANLINE_FACTOR 0.3
 #define GRAIN_INTENSITY 0.02
 
